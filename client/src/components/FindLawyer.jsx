@@ -7,6 +7,9 @@ import Button from '@mui/material/Button'
 // import { DjangoUrl } from '../../../constants'
 import findlawyerhero from '../assets/findlawyerhero2.svg'
 
+import Rating from './Rating'
+
+
 const Hero = styled.div`
   width: 100%;
   height: 68vh;
@@ -169,7 +172,27 @@ const LawyerProfileContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `
+const ReviewContainer=styled.div`
+width:80%;
+height:5%;
+padding-left:1rem;
 
+button{
+  margin-left:1rem;
+  border: 2px solid #0d265c;
+  border-radius:10px;
+  width:5rem;
+  height:2rem;
+  font-weight:700;
+}
+`
+
+const Review=styled.input`
+width:60%;
+height:2rem;
+margin-top:2%;
+padding:1rem;
+`
 const FindLawyer = () => {
 //   const [search, setSearch] = useState('')
 //   const [lawyer, setLawyer] = useState('')
@@ -271,13 +294,20 @@ const FindLawyer = () => {
               <div>No lawyer data available.</div>
             )}
           </LawyerList> */}
-          {/* <LawyerProfileContainer>
-            {selectedLawyerData ? (
+          <LawyerProfileContainer>
+            <ReviewContainer>
+              <Rating/>
+              <Review/>
+              <button>post</button>
+            </ReviewContainer>
+            {/* {selectedLawyerData ? (
               <LawyerProfile lawyerData={selectedLawyerData} />
             ) : (
               <div>No lawyer selected.</div>
-            )}
-          </LawyerProfileContainer> */}
+            )} */}
+
+
+          </LawyerProfileContainer>
         </Lawyers>
       </Container>
     </div>
