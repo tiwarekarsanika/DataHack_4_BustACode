@@ -15,7 +15,13 @@ const reviewSchema = mongoose.Schema(
         lawyer: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Lawyers",
-        }
+        },
+        userName: {
+            type: String,
+        },
+        lawyerName: {
+            type: String,
+        },
     },
     {
         timestamps: true

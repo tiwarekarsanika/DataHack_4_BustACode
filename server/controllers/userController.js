@@ -1,7 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import {User} from '../models/userDB.js';
+import {Lawyers} from '../models/lawyerDB.js';
 import {Ratings} from '../models/ratingsDB.js';
 import {Reviews} from '../models/reviewsDB.js';
+import mongoose from "mongoose";
 // const bcrypt = require('bcrypt');
 
 const createUser = asyncHandler ( async (req, res) => {
@@ -64,12 +66,25 @@ const deleteUser = asyncHandler (async (req, res) => {
 const giveRating = asyncHandler (async (req, res) => {
     try {
         const {userId, rating} = req.body;
-        const lawyerId = req.params.id;
+        const lawyer = await Lawyers.findById(req.params.id);
+        const lawyerName = lawyer.fullName;
+        console.log(lawyerName);
+        const user = await User.findById(userId);
+        const userName = user.fullName;
+        console.log(userName);
+
         const newRating = await Ratings.create({
-            userId: userId,
-            lawyerId: lawyerId,
-            rating: rating
+            user: user._id,
+            lawyer: lawyer._id,
+            rating: rating,
+            userName: userName,
+            lawyerName: lawyerName
         });
+
+        await User.updateOne({ _id: userId }, { $push: { ratings: new mongoose.Types.ObjectId(newRating._id) } });
+
+        await Lawyers.updateOne({ fullName: lawyerName }, { $push: { ratings: new mongoose.Types.ObjectId(newRating._id) } });
+        
         res.status(200).json(newRating);
     } catch(err) {
         res.status(500).json(err);
@@ -79,12 +94,25 @@ const giveRating = asyncHandler (async (req, res) => {
 const giveReview = asyncHandler (async (req, res) => {
     try {
         const {userId, review} = req.body;
-        const lawyerId = req.params.id;
+        const lawyer = await Lawyers.findById(req.params.id);
+        const lawyerName = lawyer.fullName;
+        console.log(lawyerName);
+        const user = await User.findById(userId);
+        const userName = user.fullName;
+        console.log(userName);
+
         const newReview = await Reviews.create({
-            userId: userId,
-            lawyerId: lawyerId,
-            review: review
+            user: user,
+            lawyer: lawyer,
+            review: review,
+            userName: userName,
+            lawyerName: lawyerName
         });
+
+        await User.updateOne({ _id: userId }, { $push: { reviews: new mongoose.Types.ObjectId(newReview._id) } });
+
+        await Lawyers.updateOne({ fullName: lawyerName }, { $push: { reviews: new mongoose.Types.ObjectId(newReview._id) } });
+
         res.status(200).json(newReview);
     } catch(err) {
         res.status(500).json(err);

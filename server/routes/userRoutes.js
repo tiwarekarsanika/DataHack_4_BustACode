@@ -5,7 +5,7 @@ const router = express.Router();
 router.route('/register').post(createUser);
 router.route('/').get(getUser);
 router.route('/:id').put(updateUser).delete(deleteUser);
-router.route('/rate/:id').post(giveReview)
-router.route('/review/:id').post(giveRating);
+router.route('/rate/:id').post(giveRating);
+router.route('/review/:id').post(giveReview);
 
 export default router;

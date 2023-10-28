@@ -4,19 +4,19 @@ const lawyerSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
-      required: true,
+      // required: true,
       min: 3,
       max: 30,
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
       max: 50,
       unique: true,
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
       max: 10,
       unique: true,
     },
@@ -33,11 +33,11 @@ const lawyerSchema = new mongoose.Schema(
       },
       gender: {
         type: String,
-        required: true,
+        // required: true,
       },
       dob: {
         type: Date,
-        required: true,
+        // required: true,
       },
       password: {
         type: String,
@@ -56,12 +56,12 @@ const lawyerSchema = new mongoose.Schema(
       city: {
         type: String,
         max: 20,
-        required: true,
+        // required: true,
       },
       state: {
         type: String,
         max: 20,
-        required: true,
+        // required: true,
       },
       officeAdd: {
         type: String,
@@ -102,19 +102,19 @@ const lawyerSchema = new mongoose.Schema(
         {
           year: {
             type: Number,
-            required: true,
+            // required: true,
           },
           institute: {
             type: String,
-            required: true,
+            // required: true,
           },
           result: {
             type: String,
-            required: true,
+            // required: true,
           },
           degree: {
             type: String,
-            required: true,
+            // required: true,
           },
         },
       ],
@@ -175,5 +175,5 @@ const lawyerSchema = new mongoose.Schema(
   },
 );
 
-export const Lawyer = mongoose.model("Lawyer", lawyerSchema);
+export const Lawyers = mongoose.model("Lawyers", lawyerSchema);
 

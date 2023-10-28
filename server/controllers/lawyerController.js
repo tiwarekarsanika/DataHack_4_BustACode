@@ -1,7 +1,8 @@
 import asyncHandler from 'express-async-handler';
-import {Lawyer} from '../models/lawyerDB.js';
+import {Lawyers} from '../models/lawyerDB.js';
 import {Ratings} from '../models/ratingsDB.js';
 import {Reviews} from '../models/reviewsDB.js';
+import mongoose from "mongoose";
 // const bcrypt = require('bcrypt');
 
 const createLawyer = asyncHandler ( async (req, res) => {
@@ -58,7 +59,7 @@ const deleteLawyer = asyncHandler (async (req, res) => {
 
 const getRatings = asyncHandler (async (req, res) => {
     try {
-        const lawyer = await Lawyer.findById(req.params.id);
+        const lawyer = await Lawyers.findById(req.params.id);
 
         const ratings = await Promise.all(
             lawyer.ratings.map(rateId => {
@@ -85,7 +86,7 @@ const getRatings = asyncHandler (async (req, res) => {
 
 const getReviews = asyncHandler (async (req, res) => {
     try {
-        const lawyer = await Lawyer.findById(req.params.id);
+        const lawyer = await Lawyers.findById(req.params.id);
 
         const reviews = await Promise.all(
             lawyer.reviews.map(revId => {
