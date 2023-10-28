@@ -1,80 +1,83 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import Data from '../../public/assets/extracted_data_with_gender.csv';
 import Papa from 'papaparse';
-import { Bar } from 'react-chartjs-2';
-
+import {useEffect, useState} from 'react';
+import {Bar} from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+ 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+)
+ 
 function Dashboard() {
-    const [chartData, setChartData] = useState({});
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Access the local CSV file
-                const response = await fetch('/assets/extracted_data_with_gender.csv');
-                const data = await response.text();
-
-                Papa.parse(data, {
-                    header: true,
-                    dynamicTyping: true,
-                    complete: function (results) {
-                        const parsedData = results.data;
-
-                        const domainChargeMap = {};
-                        parsedData.forEach((row) => { // Use parsedData, not data
-                            const domain = row['domains'];
-                            const charge = parseFloat(row['charge']);
-                            if (domain && !isNaN(charge)) {
-                                if (!domainChargeMap[domain]) {
-                                    domainChargeMap[domain] = 0;
-                                }
-                                domainChargeMap[domain] += charge;
-                            }
-                        });
-
-                        const domains = Object.keys(domainChargeMap);
-                        const charges = domains.map((domain) => domainChargeMap[domain]);
-
-                        // Set up the chart data
-                        setChartData({
-                            labels: domains,
-                            datasets: [
-                                {
-                                    label: 'Charge by Domain',
-                                    data: charges,
-                                },
-                            ],
-                        });
-                    },
-                });
-            } catch (error) {
-                console.error('Error fetching CSV:', error);
-            }
-        };
-
-    }, []);
-
-    return (
-        <div>
-            <h2>Lawyer Charges by Domain</h2>
-            <div style={{ height: '400px', width: '80%' }}>
-                <Bar
-                    data={chartData}
-                    options={{
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Charge',
-                                },
-                            },
-                        },
-                    }}
-                />
+  const [chartData, setChartData] = useState({
+    datasets: []
+  });
+  const [chartOptions, setChartOptions] = useState({})
+ 
+  useEffect(() => {
+    Papa.parse(OData, {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      delimiter: "",
+      complete: ((result) => {
+        console.log(result)
+        // setChartData({
+        //   labels: result.data.map((item, index) => [item['name']]).filter( String ),
+        //   datasets: [
+        //     {
+        //       label: "OSCAR WINNER",
+        //       data: result.data.map((item, index) => [item[' "Age"']]).filter( Number ),
+        //       borderColor: "black",
+        //       backgroundColor: "red"
+        //     }
+        //   ]
+        // });
+        // setChartOptions({
+        //   responsive: true,
+        //   plugins: {
+        //     legend: {
+        //       position: 'top'
+        //     },
+        //     title: {
+        //       display: true,
+        //       text: "ALL OSCAR WINNERS SINCE 1928"
+        //     }
+    //       }
+    //     })
+    //   })
+    })
+  }, [])
+ 
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      {/* {
+        chartData.datasets.length > 0 ? (
+          <div>
+            <Bar options={chartOptions} data={chartData}/>
             </div>
-        </div>
-    );
-
+        ) : (
+          <div>
+            Loading...
+            </div>
+        )
+      } */}
+    </div>
+  );
 }
-
+ 
 export default Dashboard;
