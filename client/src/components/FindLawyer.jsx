@@ -194,34 +194,34 @@ margin-top:2%;
 padding:1rem;
 `
 const FindLawyer = () => {
-//   const [search, setSearch] = useState('')
-//   const [lawyer, setLawyer] = useState('')
-//   const [selectedLawyerData, setSelectedLawyerData] = useState(null)
-//   const handleChange = e => {
-//     setSearch(e.target.value)
-//   }
-//   const handleSubmit = e => {
-//     e.preventDefault()
-//     const recommended = async () => {
-//       const response = await fetch(`${DjangoUrl}/recommend/`, {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//           prompt: search
-//         })
-//       })
-//       if (!response.ok) {
-//         console.log('error')
-//       } else {
-//         const data = await response.json()
-//         console.log(data)
-//         setLawyer(data)
-//       }
-//     }
-//     recommended()
-//   }
+  const [search, setSearch] = useState('')
+  const [lawyer, setLawyer] = useState('')
+  const [selectedLawyerData, setSelectedLawyerData] = useState(null)
+  const handleChange = e => {
+    setSearch(e.target.value)
+  }
+  const handleSubmit = e => {
+    e.preventDefault()
+    const recommended = async () => {
+      const response = await fetch(`http://127.0.0.1:5000/query/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt: search
+        })
+      })
+      if (!response.ok) {
+        console.log('error')
+      } else {
+        const data = await response.json()
+        console.log(data)
+        setLawyer(data)
+      }
+    }
+    recommended()
+  }
   return (
     <div>
       <Hero>
@@ -257,7 +257,7 @@ const FindLawyer = () => {
                 backgroundColor: 'white',
                 marginLeft: '2%'
               }}
-              // onChange={handleChange}
+              onChange={handleChange}
             />
             <Button
               variant='contained'
@@ -271,7 +271,7 @@ const FindLawyer = () => {
                 color: 'var(--primary-color)',
                 marginLeft: '1%'
               }}
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
             >
               Search
             </Button>
@@ -279,7 +279,7 @@ const FindLawyer = () => {
         </SearchContainer>
   
         <Lawyers>
-          {/* <LawyerList>
+          <LawyerList>
             {lawyer && lawyer.data ? (
               lawyer.data.map((lawyerData, index) => (
                 <button onClick={() => setSelectedLawyerData(lawyerData)}>
@@ -293,13 +293,13 @@ const FindLawyer = () => {
             ) : (
               <div>No lawyer data available.</div>
             )}
-          </LawyerList> */}
+          </LawyerList>
           <LawyerProfileContainer>
-            <ReviewContainer>
+            {/* <ReviewContainer>
               <Rating/>
               <Review/>
               <button>post</button>
-            </ReviewContainer>
+            </ReviewContainer> */}
             {/* {selectedLawyerData ? (
               <LawyerProfile lawyerData={selectedLawyerData} />
             ) : (
